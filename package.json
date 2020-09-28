@@ -1,0 +1,18 @@
+{
+  "name": "playwrightdemo",
+  "version": "1.0.0",
+  "description": "## 前言    - 是一个微软开源的Node.js库，通过API自动操作Chromium，Firefox和WebKit。    - 旨在实现跨浏览器的Web自动化，功能强大，可靠且快速。   - 属于无头浏览器，可用户自动化测试，爬虫等   - 目前支持的平台和浏览器",
+  "main": "index.js",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "blessed-contrib": "^4.8.20",
+    "crypto": "^1.0.1",
+    "playwright": "^1.4.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
