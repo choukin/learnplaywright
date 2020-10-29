@@ -55,6 +55,7 @@ mhrefs.forEach(async(item)=>{
     console.log(lprs.sort((pre,curr)=>{
       return pre.time - curr.time
     }));
+    console.log(lprs.length)
     printLine(lprs)
   }
 })
