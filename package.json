@@ -6,12 +6,19 @@
   "dependencies": {
     "blessed": "^0.1.81",
     "blessed-contrib": "^4.8.20",
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0",
     "crypto": "^1.0.1",
-    "playwright": "^1.4.2"
+    "lodash": "^4.17.21",
+    "ora": "^5.4.0",
+    "playwright": "^1.10.0",
+    "playwright-chromium": "^1.10.0",
+    "prompt": "^1.1.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "PWDEBUG=1 node src/demo41.js"
   },
   "author": "",
   "license": "ISC"

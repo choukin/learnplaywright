@@ -190,5 +190,6 @@ const playwright = require('playwright');
 ## 参考
 1. [playwright API](https://playwright.dev/#)
 2. [puppeteer](https://github.com/puppeteer/puppeteer)
+3. [prompt](https://www.npmjs.com/package/prompt)
 
 
