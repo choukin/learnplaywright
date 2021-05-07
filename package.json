@@ -15,7 +15,9 @@
     "playwright-chromium": "^1.10.0",
     "prompt": "^1.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "draw-page-structure": "^1.0.8"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "PWDEBUG=1 node src/demo41.js"
