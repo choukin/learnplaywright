@@ -2,9 +2,9 @@ const {chromium} = require('playwright');
  
 (async () => {
     const browser = await chromium.launch(
-        // {    headless: false,
-        //     slowMo:1000 // 延时
-        // }
+        {    headless: true,
+            slowMo:1000 // 延时
+        }
     );
     const context = await browser.newContext();
     const page = await context.newPage();
