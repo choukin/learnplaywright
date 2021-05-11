@@ -138,7 +138,7 @@ function renderLine(lprData) {
             //   , xLabelPadding: 3
             //   , xPadding: 6
             , showLegend: true // 显示线的说明
-            , legend: { width: 10 }
+            // , legend: { width: 6 }
         })
 
         const data = [{

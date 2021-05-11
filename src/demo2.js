@@ -15,15 +15,15 @@ const iPhone11 = devices['iPhone 11 Pro'];
   });
   const page = await context.newPage();
   await page.goto('http://i.meituan.com/');
-  await page.waitForTimeout(800);
+  await page.waitForLoadState();
   await page.screenshot({ path: 'screenshot/colosseum-iphone0.png' });
-  await page.click('text="继续访问触屏版"');
+  await page.waitForLoadState();
   await page.waitForTimeout(800);
 
   await page.screenshot({ path: 'screenshot/colosseum-iphone1.png' });
   await page.click('text="美食"');
 
-  await page.waitForTimeout(800);
+  await page.waitForLoadState();
   await page.screenshot({ path: 'screenshot/colosseum-iphone2.png' });
 
   await browser.close();

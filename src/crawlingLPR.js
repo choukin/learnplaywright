@@ -7,7 +7,8 @@ const _ = require('lodash')
 const program = require('commander')
 var prompt = require('prompt');
 const renderLine = require('./renderline.js')
-
+const fs = require('fs');
+const path = require('path')
 
 const spinner = ora(chalk.green('🚚 数据爬取中...'))
 spinner.color = 'green'
@@ -62,9 +63,6 @@ const pageUrl = renderPageUrl();
   spinner.text = chalk.green(`爬取链接...`);
   spinner.start()
   mergePromise(handleHrefFn).then(res => {
-
-    // console.log('===========');
-    // console.log(res);
     result = _.flattenDeep(res);
     spinner.text = chalk.green(`共爬取 ${result.length} 条公告`);
     spinner.succeed()
@@ -81,6 +79,9 @@ const pageUrl = renderPageUrl();
       lprs.sort((pre, curr) => {
         return pre.time - curr.time
       });
+      fs.writeFile(resolve('lprs.json'), JSON.stringify(lprs, null, "\t"), function (err) {
+        if (err) { res.status(500).send('Server is error...') }
+      })
       spinner.stop()
       page.close();
     
@@ -159,6 +160,10 @@ function loadPageInfo(url, index, page) {
       resolve(result)
     })
   }
+}
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
 }
 
 function mergePromise(ajaxArray) {

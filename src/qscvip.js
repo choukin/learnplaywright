@@ -1,15 +1,18 @@
 const { chromium, devices, webkit, firefox } = require('playwright');
-// const ora = require('ora')
-// const chalk = require('chalk')
-// const _ = require('lodash')
-// const program = require('commander')
 const prompt = require('prompt');
 const fs = require('fs');
+const path = require('path')
 const pageUrl = 'https://vip.qschou.com'; // const storage = await context.storageState();
 // process.env.STORAGE = JSON.stringify(storage);
 const iPhone = devices['iPhone 11 Pro'];
+const phoneNum = '15810505381'
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
 async function autoSignIn() {
-  const rawdata = fs.readFileSync('storage.json');
+  const rawdata = fs.readFileSync(resolve('storage.json'));
   const storageState = JSON.parse(rawdata);
   const browser = await chromium.launch({
     // executablePath: playwright.executablePath(),
@@ -42,7 +45,7 @@ async function autoSignIn() {
     await page.click('p:has-text("获取验证码")', { timeout: 2000 });
 
     // Fill [placeholder="填写手机号"]
-    await page.fill('[placeholder="填写手机号"]', '15810505381');
+    await page.fill('[placeholder="填写手机号"]', phoneNum);
 
     // Click text=获取验证码
     await page.click('text=获取验证码');
@@ -57,7 +60,7 @@ async function autoSignIn() {
 
 
 }
-function promptPrint(page, context) {
+function promptPrint(page) {
   prompt.start();
 
   var property = {
@@ -81,8 +84,6 @@ async function login(page, smsCode) {
   await page.click('.ls-btn-next');
   await checkIn(page)
 
-
-  // 
 }
 
 async function checkIn(page) {
@@ -92,15 +93,14 @@ async function checkIn(page) {
   await page.waitForLoadState(/*{ url: 'https://vip.qschou.com/member/checkin?pertain=vip&from=NewsButton#' }*/)
   let storage = await page.context().storageState();
   storage = JSON.stringify(storage, null, "\t")
-  console.log(process.env.STORAGE);
   
-  fs.writeFile('storage.json', storage, function (err) {
+  fs.writeFile(resolve('storage.json'), storage, function (err) {
     if (err) { res.status(500).send('Server is error...') }
   })
   const element = await page.$('.check_in')
   if (element) {
     await page.click('.check_in', 2)
-    // process.exit(0);
+    process.exit(0);
   } else {
     console.log('今日已签到');
     process.exit(0);
