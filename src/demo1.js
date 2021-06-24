@@ -4,7 +4,7 @@ const playwright = require('playwright');
   for (const browserType of ['chromium', 'webkit' , 'firefox']) { // 
     // 通过 launch() 创建一个浏览器实例 Browser 对象
     const browser = await playwright[browserType].launch(
-        {    headless: true,
+        {    headless: false,
             slowMo:1000 // 延时
         }
     );
@@ -18,10 +18,10 @@ const playwright = require('playwright');
     await page.screenshot({ path: `screenshot/example-${browserType}.png` });
     //  Chromium headless only
     if(browserType === 'chromium') {
-    // 设置媒体类型 
-    await page.emulateMedia({media: 'screen'});
-    // 截屏
-    await page.pdf({ path: `screenshot/example-${browserType}.pdf` });
+    // // 设置媒体类型 
+    // await page.emulateMedia({media: 'screen'});
+    // // 截屏
+    // await page.pdf({ path: `screenshot/example-${browserType}.pdf` });
     }
     await browser.close();
     if(browserType === 'firefox') {

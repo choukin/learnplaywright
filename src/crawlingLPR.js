@@ -21,11 +21,11 @@ const pageUrl = renderPageUrl();
   const browser = await chromium.launch({
     // executablePath: playwright.executablePath(),
     devtools: false,
-    headless: true,
+    headless: false,
     slowMo: 1000 // 延时
   });
   const context = await browser.newContext();
-
+debugger
   // Open new page
   const page = await context.newPage();
   await page.goto(pageUrl)
