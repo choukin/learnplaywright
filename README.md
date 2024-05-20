@@ -132,9 +132,8 @@ const { chromium, devices } = require('playwright');
 
 ## Page
 
-|事件/方法名称  |参数说明|
-|   :---   |  :---: |
-
+|事件/方法名称 |参数类型  |参数说明|
+|   :---   |  :---: | :---: |
 | on('close',fn) |事件 | 关闭浏览器时触发 |
 | on('request',fn)|事件 | 页面发出请求时触发 |
 | on('response',fn)|事件 | 请求返回时触发 |
