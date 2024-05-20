@@ -20,12 +20,13 @@ const pageUrl = renderPageUrl();
 (async () => {
   const browser = await chromium.launch({
     // executablePath: playwright.executablePath(),
-    devtools: false,
-    headless: false,
+    executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    // devtools: false,
+    headless: true,
     slowMo: 1000 // 延时
   });
   const context = await browser.newContext();
-debugger
+  // debugger
   // Open new page
   const page = await context.newPage();
   await page.goto(pageUrl)
@@ -37,9 +38,12 @@ debugger
 
   spinner.text = chalk.green('获取总页数...');
   spinner.start()
-
+  await page.$eval('a.pagingNormal', el => {
+    console.log('> ===============', el)
+  })
 
   const pageCount = await page.$$eval('a.pagingNormal', el => {
+    console.log('>$$ ===============', el)
     let pageCount = 1
     if (el.length > 0) {
       const tageName = el[el.length - 1].getAttribute('tagname')
@@ -73,6 +77,7 @@ debugger
     spinner.text = chalk.green(`LPR信息爬取中...`);
     spinner.start()
     mergePromise(fns).then(res => {
+      console.log(`🚀 ~ mergePromise ~ res:`, res)
       const lprs = processCleanData(res)
       spinner.text = chalk.green(`LPR信息共 ${lprs.length} 条`);
       spinner.succeed()
@@ -84,41 +89,49 @@ debugger
       })
       spinner.stop()
       page.close();
-    
+
       promptPrint(lprs)
     }).catch(error => {
       console.error(error);
     })
   })
 })()
-function promptPrint(lprs){
+
+function promptPrint(lprs) {
   prompt.start();
 
-var property = {
-  name: 'yesno',
-  message: '是否输出图表(y/n)?',
-  validator: /y[es]*|n[o]?/,
-  warning: '请输入 yes or no',
-  default: 'no'
-};
-prompt.get(property, function (err, result) {
-  if(['y','yes'].includes(result.yesno)) {
-    renderLine(lprs)
-  }
-});
+  var property = {
+    name: 'yesno',
+    message: '是否输出图表(y/n)?',
+    validator: /y[es]*|n[o]?/,
+    warning: '请输入 yes or no',
+    default: 'no'
+  };
+  prompt.get(property, function (err, result) {
+    if (['y', 'yes'].includes(result.yesno)) {
+      renderLine(lprs)
+    } else {
+      process.exit(0)
+    }
+  });
 }
 
 function processCleanData(data) {
+  // console.log(`🚀 ~ processCleanData ~ data:`, data)
   let lprArray = []
-  data.forEach(text => {
-    let data = text.match(/\d{4}年[01]?\d月[0123]?\d日/g)[0]
-    data = data.replace('年', '/').replace('月', '/').replace('日', '')
-    const time = new Date(Date.parse(data.replace('年', '-').replace('月', '-').replace('日', '')))
-    let valu5year = text.match(/5年期以上LPR为[\s]?(\d{1}.\d{2})/g)[0];
-    let valu1year = text.match(/1年期LPR为[\s]?(\d{1}.\d{2})/g)[0];
-    valu5year = valu5year.replace('5年期以上LPR为', '').trim()
-    valu1year = valu1year.replace('1年期LPR为', '').trim()
-    lprArray.push({ data, valu1year, valu5year, time })
+  data.forEach((text, index) => {
+    try {
+      let data = text.match(/\d{4}年[01]?\d月[0123]?\d日/g)[0]
+      data = data.replace('年', '/').replace('月', '/').replace('日', '')
+      const time = new Date(Date.parse(data.replace('年', '-').replace('月', '-').replace('日', '')))
+      let valu5year = text.match(/5年期以上LPR为[\s]?(\d{1}.\d)/g)[0];
+      let valu1year = text.match(/1年期LPR为[\s]?(\d{1}.\d)/g)[0];
+      valu5year = valu5year.replace('5年期以上LPR为', '').trim()
+      valu1year = valu1year.replace('1年期LPR为', '').trim()
+      lprArray.push({ data, valu1year, valu5year, time })
+    } catch (e) {
+      console.error('不满足条件')
+    }
   })
   return lprArray
 }
@@ -129,6 +142,7 @@ function loadDetailPageInfo(item, context) {
       const page1 = await context.newPage();
       await page1.goto(item.href)
       const text = await page1.textContent('#zoom > p')
+      console.log(`🚀 ~ returnnewPromise ~ text:`, text)
       page1.close()
       resolve(text)
     })
@@ -183,4 +197,6 @@ function mergePromise(ajaxArray) {
 function renderPageUrl() {
   return `http://www.pbc.gov.cn/zhengcehuobisi/125207/125213/125440/3876551/de24575c/index${pageIndex}.html`;
 }
+
+
 

@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const blessed = require('blessed')
 const contrib = require('blessed-contrib');
+const lprs = require('./lprs.json')
 // const datas = [
 //     {
 //       data: '2019/8/20',
@@ -127,11 +128,13 @@ function renderLine(lprData) {
     const transactionsLine = grid.set(0, 0, 6, 12, contrib.line,
         {
             style:
-            { line: "yellow"
-            , text: "green"
-            , baseline: "white"},
+            {
+                line: "yellow"
+                , text: "green"
+                , baseline: "white"
+            },
             showNthLabel: 0,
-            minY: 3.7,
+            minY: 3.4,
             maxY: 5
             , wholeNumbersOnly: false
             , label: 'PBOCLPR'
@@ -141,7 +144,7 @@ function renderLine(lprData) {
             // , legend: { width: 6 }
         })
 
-        const data = [{
+    const data = [{
         title: '5years',
         x: xData,
         y: lineData,
@@ -185,7 +188,7 @@ function renderTable(grid, lprData) {
             , columnWidth: [20, 10, 10]
         })
     table.focus()
-    tableData = lprData.map(item => {
+    tableData = lprData.reverse().map(item => {
         return [item.data, item.valu1year, item.valu5year]
     })
     table.setData({ headers: ['month', '1year', '5year'], data: tableData })
@@ -209,4 +212,6 @@ function renderSpark(grid) {
     sparkline.setData(['1year', '5year'], [spark1, spark2])
 
 }
+
+// renderLine(lprs)
 module.exports = renderLine
