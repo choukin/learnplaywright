@@ -21,7 +21,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "debug": "PWDEBUG=1 node src/crawlingLPR.js",
-    "debug:qsc": "PWDEBUG=1 node src/ledu.js"
+    "debug:qsc": "PWDEBUG=1 node src/ledu.js",
+    "debug:amap": "PWDEBUG=1 node src/amap.js"
   },
   "author": "",
   "license": "ISC"
